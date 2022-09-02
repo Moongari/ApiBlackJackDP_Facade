@@ -38,7 +38,7 @@ namespace AppBlackJack_DPFacade.Models
          
             int donneur = rndIsDonneur.Next(1, NbreJoueur);
 
-            for (int i = 1; i < NbreJoueur; i++)
+            for (int i = 0; i < NbreJoueur; i++)
             {
                 int mise = rndMise.Next(30, 100);
                 int argent = rndArgent.Next(10, 200);

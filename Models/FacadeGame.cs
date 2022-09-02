@@ -10,9 +10,8 @@ namespace AppBlackJack_DPFacade.Models
 {
     public class FacadeGame
     {
-        private Joueur joueur;
+ 
         private IRegle _regle;
-        private Cartes carte;
         private IFabriqueCartes _fabriqueCartes;
         private IFabriqueJoueur _fabriqueJoueur;
         private SauvegardePartie sauvegardePartie;
@@ -20,6 +19,9 @@ namespace AppBlackJack_DPFacade.Models
         private List<Cartes> cartes;
         private HashSet<Cartes> cartesMelange;
         private IConsole _console;
+        private Jeu jeu;
+        public bool Rejouer { get; set; }   
+
 
         public FacadeGame(IConsole console,IFabriqueCartes fabriqueCartes,IFabriqueJoueur fabriqueJoueur,IRegle regle)
         {
@@ -31,16 +33,22 @@ namespace AppBlackJack_DPFacade.Models
             sauvegardePartie =new SauvegardePartie();
             joueurs = new List<Joueur>();
             cartes = new List<Cartes>();
+            jeu = new Jeu(new ConsoleDeSortie());
            
 
         }
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task MiseEnPlaceDelaTableAsync() 
         {
-            _console.ecrireLigne("\t Creation et mise en place de la Table");
-            _fabriqueJoueur.NbreJoueur = 20;
+
+                jeu.Demarrage();
+
+            _fabriqueJoueur.NbreJoueur = jeu.NbreDejoueurInJeu;
             if (_fabriqueJoueur.isNbrJoueurGreaterThanZero())
             {
                 joueurs = _fabriqueJoueur.GetJoueurs().ToList();
@@ -60,14 +68,18 @@ namespace AppBlackJack_DPFacade.Models
 
                 if (_fabriqueJoueur.NbreJoueur < 1) { _console.ecrireLigne("\t Nombre de Joueurs insuffisant pour lancer une partie"); }
                 if (_fabriqueJoueur.NbreJoueur > 15) { _console.ecrireLigne("\t Nombre de joueurs trop important autour de la Table"); }
-                    
 
+                jeu.Rejouer();
+
+                Rejouer = jeu.isReplay;
 
             }
            
         }
         
-
+        /// <summary>
+        /// 
+        /// </summary>
         private void  MelangeCarte()
         {
 
@@ -76,19 +88,29 @@ namespace AppBlackJack_DPFacade.Models
             _console.ecrireLigne("\t Les cartes ont été melangées..Traitement Terminé....." + "Nb Cartes : " + cartesMelange.Count());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         private async Task TraitementMelangeCarteAsync()
         {
             _console.ecrireLigne("\t Melange des cartes en cours.....");
             await Task.Run(() => MelangeCarte());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="joueur"></param>
         public void SauvegardeDeLaPartie(Joueur joueur)
         {
            
             sauvegardePartie.SaveDataJoueur(joueur);
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         private void AffichageDeJoueurs()
         {
             sauvegardePartie.DeleteFileJoueur();
@@ -104,12 +126,22 @@ namespace AppBlackJack_DPFacade.Models
             _console.sautDeligne();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void VisualisationDuJeuDeCarte()
         {
             _console.ecrireLigne("\t Liste des cartes ");
             _console.sautDeligne();
             cartes.ToList().ForEach(c => _console.ecrireLigne($"\t  {c.id} {c.Name} {c.ValeurCarte}{c.CarteType}"));
             _console.sautDeligne();
+        }
+
+
+        public void FinDePartie()
+        {
+           
+            _console.ecrireLigne("\t ############# FIN DE LA PARTIE #####################");
         }
     }
 }
