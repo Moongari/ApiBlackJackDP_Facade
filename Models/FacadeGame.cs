@@ -2,7 +2,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -62,6 +64,29 @@ namespace AppBlackJack_DPFacade.Models
                 _console.sautDeligne();
                 AffichageDeJoueurs();
                 await TraitementMelangeCarteAsync();
+
+
+
+
+
+
+                _console.sautDeligne();
+
+                foreach (var joueur in joueurs)
+                {
+                   var distribution = _regle.distributionDesCartes(cartesMelange, joueur);
+
+                
+
+
+                    distribution.ToList().ForEach(d => _console.ecrireLigne($"\t Carte : {d.Item1} Type :{d.Item2}- {d.Item3} Points / Joueur = {d.Item4.Name} "));
+
+                }
+
+                _console.sautDeligne();
+
+                _regle.aGagne(joueurs);
+
             }
             else
             {

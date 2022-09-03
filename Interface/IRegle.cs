@@ -9,11 +9,11 @@ namespace AppBlackJack_DPFacade.Interface
 {
     public interface IRegle
     {
-        public bool aGagne(string name);
+        public void aGagne(List<Joueur> joueurs);
         public void egaliteJoueur(List<Joueur> joueurs);
         public bool isValidAge(List<Joueur> joueurs);
 
-        public IEnumerable<List<Tuple<string, string, int , Joueur>>> distributionDesCartes();
+        public IEnumerable<Tuple<string, string, int, Joueur>> distributionDesCartes(HashSet<Cartes> cartes,Joueur joueur);
 
         public IEnumerable<Cartes>melangeCartes(IEnumerable<Cartes> cartes);
 
