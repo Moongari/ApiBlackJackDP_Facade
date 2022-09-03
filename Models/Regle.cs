@@ -20,6 +20,12 @@ namespace AppBlackJack_DPFacade.Models
         {
             ids = new List<Cartes>();
         }
+
+        /// <summary>
+        /// Recupere le point maximal
+        /// Recherche quel joueur a obtenu ce score 
+        /// </summary>
+        /// <param name="joueurs"></param>
         public void aGagne(List<Joueur> joueurs)
         {
             var maxValeur = joueurs.Max(j=> j.PointObtenu);
@@ -35,6 +41,12 @@ namespace AppBlackJack_DPFacade.Models
 
         }
 
+        /// <summary>
+        /// Distribution des cartes aux joueurs
+        /// </summary>
+        /// <param name="cartes"></param>
+        /// <param name="joueur"></param>
+        /// <returns></returns>
         public IEnumerable<Tuple<string, string, int, Joueur>> distributionDesCartes(HashSet<Cartes> cartes, Joueur joueur)
         {
 
@@ -81,12 +93,22 @@ namespace AppBlackJack_DPFacade.Models
         }
 
 
-
+        /// <summary>
+        /// Permet de verifier si des joueurs ont obtenu le meme score
+        /// </summary>
+        /// <param name="joueurs"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void egaliteJoueur(List<Joueur> joueurs)
         {
             throw new NotImplementedException();
         }
 
+
+        /// <summary>
+        /// Verifie si cette carte a deja été trouvé et melangé au tas
+        /// </summary>
+        /// <param name="idCartes"></param>
+        /// <returns></returns>
         public bool isIdValid(Cartes idCartes)
         {
             if (!ids.Contains(idCartes))
@@ -98,15 +120,28 @@ namespace AppBlackJack_DPFacade.Models
 
         }
 
+        /// <summary>
+        /// permet de verifier si un joueur peut jouer ou pas en fonction de son age
+        /// </summary>
+        /// <param name="joueurs"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public bool isValidAge(List<Joueur> joueurs)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Melange les cartes 
+        /// </summary>
+        /// <param name="cartes"></param>
+        /// <returns></returns>
         public IEnumerable<Cartes> melangeCartes(IEnumerable<Cartes> cartes)
         {
             Random rndCartes = new Random();
-            int valMax = cartes.Count();
+            
+            int valMax = cartes.Count(); // nombre de cartes totales
+
             while (ids.Count < valMax)
             {
                 for (int i = cartes.Count() - 1; i >= 0; i--)
@@ -126,7 +161,8 @@ namespace AppBlackJack_DPFacade.Models
                 }
 
 
-                var cardNotFirstList = cartes.Except(ids).ToList();
+                var cardNotFirstList = cartes.Except(ids).ToList(); //ne pas utiliser ici
+                
                 //foreach (var item in cardNotFirstList)
                 //{
                 //    Console.WriteLine($" {item.id}");
