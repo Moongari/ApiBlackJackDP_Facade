@@ -1,12 +1,6 @@
 ﻿using AppBlackJack_DPFacade.Interface;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
+using Serilog;
+using Serilog.Sinks.SystemConsole.Themes;
 
 namespace AppBlackJack_DPFacade.Models
 {
@@ -22,21 +16,29 @@ namespace AppBlackJack_DPFacade.Models
         private HashSet<Cartes> cartesMelange;
         private IConsole _console;
         private Jeu jeu;
-        public bool Rejouer { get; set; }   
+   
+        
+        public bool Rejouer { get; set; }
+       
 
-
-        public FacadeGame(IConsole console,IFabriqueCartes fabriqueCartes,IFabriqueJoueur fabriqueJoueur,IRegle regle)
+        public FacadeGame(IConsole console, IFabriqueCartes fabriqueCartes, IFabriqueJoueur fabriqueJoueur, IRegle regle)
         {
             _fabriqueCartes = fabriqueCartes;
             _fabriqueJoueur = fabriqueJoueur;
             _regle = regle;
             _console = console;
 
-            sauvegardePartie =new SauvegardePartie();
+            sauvegardePartie = new SauvegardePartie();
             joueurs = new List<Joueur>();
             cartes = new List<Cartes>();
             jeu = new Jeu(new ConsoleDeSortie());
-           
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Verbose()
+                .WriteTo.Console(theme: AnsiConsoleTheme.Code)
+                .CreateLogger();
+
+         
+            
 
         }
 
@@ -47,8 +49,11 @@ namespace AppBlackJack_DPFacade.Models
         /// <returns></returns>
         public async Task MiseEnPlaceDelaTableAsync() 
         {
-
-                jeu.Demarrage();
+            Log.Information("DEMARRAGE DU JEU ");
+            
+          
+            jeu.Demarrage();
+           
 
             _fabriqueJoueur.NbreJoueur = jeu.NbreDejoueurInJeu;
             if (_fabriqueJoueur.isNbrJoueurGreaterThanZero())
@@ -58,7 +63,8 @@ namespace AppBlackJack_DPFacade.Models
 
                 _console.sautDeligne();
 
-                _console.ecrireLigne("\t Creation du jeu de Cartes");
+                //_console.ecrireLigne("\t Creation du jeu de Cartes");
+                Log.Write(Serilog.Events.LogEventLevel.Information, "Creation du jeu de Cartes");
                 cartes = _fabriqueCartes.listeDeCartes().ToList();
 
                 _console.sautDeligne();
@@ -76,16 +82,19 @@ namespace AppBlackJack_DPFacade.Models
                 {
                    var distribution = _regle.distributionDesCartes(cartesMelange, joueur);
 
-                
+
+                   
 
 
                     distribution.ToList().ForEach(d => _console.ecrireLigne($"\t Carte : {d.Item1} Type :{d.Item2}- {d.Item3} Points / Joueur = {d.Item4.Name} "));
-
+                    SauvegardeDeLaPartie(joueur);
                 }
 
                 _console.sautDeligne();
 
                 _regle.aGagne(joueurs);
+
+                _regle.egaliteJoueur(joueurs);
 
             }
             else
@@ -103,7 +112,7 @@ namespace AppBlackJack_DPFacade.Models
         }
         
         /// <summary>
-        /// 
+        ///  Appel de la methode pour melanger les cartes
         /// </summary>
         private void  MelangeCarte()
         {
@@ -143,10 +152,10 @@ namespace AppBlackJack_DPFacade.Models
             _console.sautDeligne();
             joueurs.ToList().ForEach(j => _console.ecrireLigne($"\t id : {j.id} Name : {j.Name} Age : {j.Age} Mise : {j.Mise}€ Argent : {j.Argent}€ Donneur : {j.isDonneur}  {j.PointObtenu} point(s) "));
             
-            foreach (var joueur in joueurs)
-            {
-                SauvegardeDeLaPartie(joueur);
-            }
+            //foreach (var joueur in joueurs)
+            //{
+            //    SauvegardeDeLaPartie(joueur);
+            //}
             
             _console.sautDeligne();
         }

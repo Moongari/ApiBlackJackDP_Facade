@@ -15,10 +15,12 @@ namespace AppBlackJack_DPFacade.Models
         private int _iCompteurCarte = 0;
         Cartes? carte1;
         Cartes? carte2;
+        public Joueur Joueur { get; set; }
 
         public Regle()
         {
             ids = new List<Cartes>();
+            Joueur = new Joueur();
         }
 
         /// <summary>
@@ -31,10 +33,11 @@ namespace AppBlackJack_DPFacade.Models
             var maxValeur = joueurs.Max(j=> j.PointObtenu);
 
             var gagnant = joueurs.Where(j => j.PointObtenu == maxValeur).FirstOrDefault();
-            
-                
-            
-            Console.WriteLine($"\t le Vainqueur de la partie est : {gagnant.Name} - {gagnant.PointObtenu} Points ");
+
+            Joueur.Name = gagnant.Name;
+            Joueur.PointObtenu = gagnant.PointObtenu;
+
+            Console.WriteLine($"\t le Vainqueur de la partie est : {Joueur.Name} - {Joueur.PointObtenu} Points ");
             
             
             
@@ -100,7 +103,21 @@ namespace AppBlackJack_DPFacade.Models
         /// <exception cref="NotImplementedException"></exception>
         public void egaliteJoueur(List<Joueur> joueurs)
         {
-            throw new NotImplementedException();
+            //TODO
+
+            //var comparEgalitePlayers = from j in joueurs
+            //                           group j by j.PointObtenu into Joueurs
+                                       
+            //                           select joueurs;
+
+            //foreach (var keys in comparEgalitePlayers)
+            //{
+            //    Console.WriteLine($"{keys.Count}");
+            //    foreach (var item in keys)
+            //    {
+            //        Console.WriteLine($"{item.Name}");
+            //    }
+            //}                         
         }
 
 
@@ -128,7 +145,7 @@ namespace AppBlackJack_DPFacade.Models
         /// <exception cref="NotImplementedException"></exception>
         public bool isValidAge(List<Joueur> joueurs)
         {
-            throw new NotImplementedException();
+            return joueurs.Where(j=>j.Age <18).Any();
         }
 
         /// <summary>

@@ -12,6 +12,7 @@ namespace AppBlackJack_DPFacade.Models
 
         private string _path;
         private string _fileNamePartie = "sauvegardeJoueur.json";
+        private string _fileNameGagnant = "sauveGargeJoueurGagnant.json";
 
 
         public SauvegardePartie()
@@ -24,19 +25,39 @@ namespace AppBlackJack_DPFacade.Models
 
         public void SaveDataJoueur(Joueur joueur)
         {
-          
-            var fileAndPath = Path.Combine(this._path, _fileNamePartie);
-            var json = JsonSerializer.Serialize(joueur);
 
-            if (!File.Exists(fileAndPath))
+            try
             {
-                File.WriteAllText(fileAndPath, json);
+
+           
+                if (joueur != null)
+                {
+                    var fileAndPath = Path.Combine(this._path, _fileNamePartie);
+                    var json = JsonSerializer.Serialize(joueur);
+
+
+                    if (!File.Exists(fileAndPath))
+                    {
+                        File.WriteAllText(fileAndPath, json);
+                    }
+                    else
+                    {
+                        File.AppendAllText(fileAndPath, json);
+                    }
+                }
+                else
+                {
+
+                    throw new ArgumentNullException($"Echec de sauvegarde , l'objet joueur est null");
+                }
             }
-            else
+            catch (ArgumentNullException ex)
             {
-                File.AppendAllText(fileAndPath, json);
+
+                Console.WriteLine($"{ex.Message}");
             }
-            
+
+
 
         }
 
