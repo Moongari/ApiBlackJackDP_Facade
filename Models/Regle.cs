@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,7 +43,9 @@ namespace AppBlackJack_DPFacade.Models
 
             if(isBlackJack)
             {
+                Console.WriteLine();
                 Console.WriteLine($"\t  ### SUPER BLACK JACK ####  : {Joueur.Name} - {Joueur.PointObtenu} Points ");
+                Console.WriteLine();
             }
 
             Console.WriteLine($"\t le Vainqueur de la partie est : {Joueur.Name} - {Joueur.PointObtenu} Points ");
