@@ -14,6 +14,11 @@ namespace AppBlackJack_DPFacade.Models
             Console.WriteLine(message);
         }
 
+        public void ecrireLigneSansRetourLigne(string msg)
+        {
+            Console.Write(msg);
+        }
+
         public void sautDeligne()
         {
             Console.WriteLine("");

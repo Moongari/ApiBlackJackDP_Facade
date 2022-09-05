@@ -37,7 +37,7 @@ namespace AppBlackJack_DPFacade.Models
             
             while (true)
             {
-                _console.ecrireLigne("\t\t ## Veuillez indiquer le nombre de Joueur #### ");
+                _console.ecrireLigneSansRetourLigne("\t\t ## Veuillez indiquer le nombre de Joueur :  ");
                 string? nbreJoueur = Console.ReadLine();
 
                 if (nbreJoueur != null)

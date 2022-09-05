@@ -94,6 +94,8 @@ namespace AppBlackJack_DPFacade.Models
 
                 _regle.aGagne(joueurs);
 
+                _console.sautDeligne();
+
                 _regle.egaliteJoueur(joueurs);
 
             }

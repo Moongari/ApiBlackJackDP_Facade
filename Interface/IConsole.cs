@@ -10,5 +10,6 @@ namespace AppBlackJack_DPFacade.Interface
     {
         public void ecrireLigne(string message);
         public void sautDeligne();
+        public void ecrireLigneSansRetourLigne(string msg);
     }
 }

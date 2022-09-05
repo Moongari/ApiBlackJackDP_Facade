@@ -105,19 +105,22 @@ namespace AppBlackJack_DPFacade.Models
         {
             //TODO
 
-            //var comparEgalitePlayers = from j in joueurs
-            //                           group j by j.PointObtenu into Joueurs
-                                       
-            //                           select joueurs;
+            var egaliteJoueur = from j in joueurs
+                                orderby j.PointObtenu descending
+                                group j by j.PointObtenu;
+                                
+            
+            foreach(var key in egaliteJoueur)
+            {
+                Console.WriteLine($"\t Valeur des Points : {key.Key}");
 
-            //foreach (var keys in comparEgalitePlayers)
-            //{
-            //    Console.WriteLine($"{keys.Count}");
-            //    foreach (var item in keys)
-            //    {
-            //        Console.WriteLine($"{item.Name}");
-            //    }
-            //}                         
+                foreach (var joueurName in key)
+                {
+                    Console.WriteLine($"\t Nom des joueurs ex aequo = {joueurName.Name}");
+                }
+            }
+
+
         }
 
 
