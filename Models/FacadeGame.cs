@@ -68,7 +68,9 @@ namespace AppBlackJack_DPFacade.Models
                 cartes = _fabriqueCartes.listeDeCartes().ToList();
 
                 _console.sautDeligne();
+
                 AffichageDeJoueurs();
+
                 await TraitementMelangeCarteAsync();
 
 
@@ -84,9 +86,10 @@ namespace AppBlackJack_DPFacade.Models
 
 
                    
-
+                    
 
                     distribution.ToList().ForEach(d => _console.ecrireLigne($"\t Carte : {d.Item1} Type :{d.Item2}- {d.Item3} Points / Joueur = {d.Item4.Name} "));
+                    
                     SauvegardeDeLaPartie(joueur);
                 }
 

@@ -19,6 +19,8 @@ namespace AppBlackJack_DPFacade.Interface
 
         public bool isIdValid(Cartes idCartes);
 
+        public bool isAsAndTenCard();
+
 
     }
 }

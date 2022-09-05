@@ -16,6 +16,7 @@ namespace AppBlackJack_DPFacade.Models
         Cartes? carte1;
         Cartes? carte2;
         public Joueur Joueur { get; set; }
+        public bool isBlackJack { get; set; }
 
         public Regle()
         {
@@ -34,8 +35,15 @@ namespace AppBlackJack_DPFacade.Models
 
             var gagnant = joueurs.Where(j => j.PointObtenu == maxValeur).FirstOrDefault();
 
-            Joueur.Name = gagnant.Name;
-            Joueur.PointObtenu = gagnant.PointObtenu;
+            if(gagnant != null) { Joueur.Name = gagnant.Name; Joueur.PointObtenu = gagnant.PointObtenu; }
+           
+
+            
+
+            if(isBlackJack)
+            {
+                Console.WriteLine($"\t  ### SUPER BLACK JACK ####  : {Joueur.Name} - {Joueur.PointObtenu} Points ");
+            }
 
             Console.WriteLine($"\t le Vainqueur de la partie est : {Joueur.Name} - {Joueur.PointObtenu} Points ");
             
@@ -78,6 +86,9 @@ namespace AppBlackJack_DPFacade.Models
             if (carte1 != null && carte2 != null)
             {
                 joueur.PointObtenu = carte1.ValeurCarte + carte2.ValeurCarte;
+
+                isBlackJack =  isAsAndTenCard();
+
                 yield return new Tuple<string, string, int, Joueur>(carte1.Name, carte1.CarteType, carte1.ValeurCarte, joueur);
                 yield return new Tuple<string, string, int, Joueur>(carte2.Name, carte2.CarteType, carte2.ValeurCarte, joueur);
             }
@@ -188,6 +199,50 @@ namespace AppBlackJack_DPFacade.Models
                 //    Console.WriteLine($" {item.id}");
                 //}
             }
+        }
+
+        public bool isAsAndTenCard()
+        {
+            if(!string.IsNullOrEmpty(carte1.Name) && !string.IsNullOrEmpty(carte2.Name))
+            {
+                if (carte1.Name == "Ace")
+                {
+                    carte1.ValeurCarte = 11;
+                    bool isTenCard = carte2.Name switch
+                    {
+                        "Ten" => true,
+                        "Jack" => true,
+                        "Queen" => true,
+                        "King" => true,
+
+                        _ => false
+                    };
+
+                    return isTenCard;
+
+
+                }else if(carte2.Name == "Ace")
+                {
+
+                    carte2.ValeurCarte = 11;
+                    bool isTenCard = carte1.Name switch
+                    {
+                        "Ten" => true,
+                        "Jack" => true,
+                        "Queen" => true,
+                        "King" => true,
+
+                        _ => false
+                    };
+
+                    return isTenCard;
+
+                }
+            }
+          
+
+            return false;
+
         }
     }
 }
