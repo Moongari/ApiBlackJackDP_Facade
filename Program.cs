@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using System.Text;
 Console.OutputEncoding = Encoding.UTF8;
+
 Log.Information("LANCEMENT APPLICATION");
 FacadeGame game = new FacadeGame(new ConsoleDeSortie(),new FabriqueCartes(),new FabriqueJoueur(),new Regle());
 

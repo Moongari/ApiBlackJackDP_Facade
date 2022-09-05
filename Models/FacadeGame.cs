@@ -32,6 +32,7 @@ namespace AppBlackJack_DPFacade.Models
             joueurs = new List<Joueur>();
             cartes = new List<Cartes>();
             jeu = new Jeu(new ConsoleDeSortie());
+
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Verbose()
                 .WriteTo.Console(theme: AnsiConsoleTheme.Code)
