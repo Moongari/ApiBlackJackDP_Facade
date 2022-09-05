@@ -47,11 +47,11 @@ namespace AppBlackJack_DPFacade.Models
                 Console.WriteLine($"\t  ### SUPER BLACK JACK ####  : {Joueur.Name} - {Joueur.PointObtenu} Points ");
                 Console.WriteLine();
             }
-
+            Console.WriteLine();
             Console.WriteLine($"\t le Vainqueur de la partie est : {Joueur.Name} - {Joueur.PointObtenu} Points ");
-            
-            
-            
+            Console.WriteLine();
+
+
 
         }
 
