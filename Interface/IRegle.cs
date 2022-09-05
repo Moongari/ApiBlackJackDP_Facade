@@ -21,6 +21,6 @@ namespace AppBlackJack_DPFacade.Interface
 
         public bool isAsAndTenCard();
 
-
+        public bool isBlackJack { get; set; }
     }
 }

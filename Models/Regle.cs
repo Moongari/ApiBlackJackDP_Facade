@@ -89,6 +89,11 @@ namespace AppBlackJack_DPFacade.Models
 
                 isBlackJack =  isAsAndTenCard();
 
+                if (isBlackJack)
+                {
+                    Console.WriteLine($"\t  ### SUPER BLACK JACK ####  : {joueur.Name} - {joueur.PointObtenu} Points ");
+                }
+
                 yield return new Tuple<string, string, int, Joueur>(carte1.Name, carte1.CarteType, carte1.ValeurCarte, joueur);
                 yield return new Tuple<string, string, int, Joueur>(carte2.Name, carte2.CarteType, carte2.ValeurCarte, joueur);
             }

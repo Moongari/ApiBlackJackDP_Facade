@@ -94,8 +94,12 @@ namespace AppBlackJack_DPFacade.Models
                 }
 
                 _console.sautDeligne();
-
-                _regle.aGagne(joueurs);
+                if (!_regle.isBlackJack)
+                {
+                    _regle.aGagne(joueurs);
+                }
+                
+                
 
                 _console.sautDeligne();
 
