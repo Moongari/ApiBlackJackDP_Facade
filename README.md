@@ -8,4 +8,4 @@ l'ensemble de ces points sont utilisés dans cette application.
  - pojo
  - solid
  - serialisation Json
-Developper avec .NetCore6 et Visual Studio Community 2022
+ - Developper avec .NetCore6 et Visual Studio Community 2022
